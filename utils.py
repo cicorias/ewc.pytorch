@@ -2,7 +2,8 @@ from copy import deepcopy
 
 import torch
 from torch import nn
-from torch.nn import functional as F
+# from torch.nn import functional as F
+import torch.nn.functional as F
 from torch.autograd import Variable
 import torch.utils.data
 
@@ -63,7 +64,7 @@ def normal_train(model: nn.Module, optimizer: torch.optim, data_loader: torch.ut
         optimizer.zero_grad()
         output = model(input)
         loss = F.cross_entropy(output, target)
-        epoch_loss += loss.data[0]
+        epoch_loss += loss.data #  loss.data[0]
         loss.backward()
         optimizer.step()
     return epoch_loss / len(data_loader)

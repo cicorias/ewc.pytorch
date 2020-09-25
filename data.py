@@ -9,10 +9,11 @@ class PermutedMNIST(datasets.MNIST):
         super(PermutedMNIST, self).__init__(root, train, download=True)
         assert len(permute_idx) == 28 * 28
         if self.train:
-            self.train_data = torch.stack([img.float().view(-1)[permute_idx] / 255
-                                           for img in self.train_data])
+            t = [img.float().view(-1)[permute_idx] / 255 for img in self.train_data]
+            temp_train = torch.stack(t)
+            self.data = temp_train #  torch.stack(t)
         else:
-            self.test_data = torch.stack([img.float().view(-1)[permute_idx] / 255
+            self.data = torch.stack([img.float().view(-1)[permute_idx] / 255
                                           for img in self.test_data])
 
     def __getitem__(self, index):
