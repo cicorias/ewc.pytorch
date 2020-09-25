@@ -82,7 +82,8 @@ def ewc_train(model: nn.Module, optimizer: torch.optim, data_loader: torch.utils
         epoch_loss += loss.data[0]
         loss.backward()
         optimizer.step()
-    return epoch_loss / len(data_loader)
+    rv = torch.true_divide(epoch_loss, len(data_loader))
+    return rv # epoch_loss / len(data_loader)
 
 
 def test(model: nn.Module, data_loader: torch.utils.data.DataLoader):
@@ -92,4 +93,5 @@ def test(model: nn.Module, data_loader: torch.utils.data.DataLoader):
         input, target = variable(input), variable(target)
         output = model(input)
         correct += (F.softmax(output, dim=1).max(dim=1)[1] == target).data.sum()
-    return correct / len(data_loader.dataset)
+    rv = torch.true_divide(correct, len(data_loader.dataset))
+    return rv # correct / len(data_loader.dataset)
