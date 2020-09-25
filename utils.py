@@ -79,11 +79,11 @@ def ewc_train(model: nn.Module, optimizer: torch.optim, data_loader: torch.utils
         optimizer.zero_grad()
         output = model(input)
         loss = F.cross_entropy(output, target) + importance * ewc.penalty(model)
-        epoch_loss += loss.data[0]
+        epoch_loss += loss.data # [0]
         loss.backward()
         optimizer.step()
-    rv = torch.true_divide(epoch_loss, len(data_loader))
-    return rv # epoch_loss / len(data_loader)
+    # rv = torch.true_divide(epoch_loss, len(data_loader))
+    return epoch_loss / len(data_loader)
 
 
 def test(model: nn.Module, data_loader: torch.utils.data.DataLoader):
