@@ -51,8 +51,8 @@ def get_permute_mnist():
     idx = list(range(28 * 28))
     for i in range(num_task):
         train_loader[i] = torch.utils.data.DataLoader(PermutedMNIST(train=True, permute_idx=idx),
-                                                      batch_size=batch_size,
-                                                      num_workers=4)
+                                                      batch_size=batch_size) #,
+                                                      # num_workers=4)
         test_loader[i] = torch.utils.data.DataLoader(PermutedMNIST(train=False, permute_idx=idx),
                                                      batch_size=batch_size)
         random.shuffle(idx)
