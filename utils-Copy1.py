@@ -59,7 +59,7 @@ class EWC(object):
 def normal_train(model: nn.Module, optimizer: torch.optim, data_loader: torch.utils.data.DataLoader):
     model.train()
     epoch_loss = 0
-    for i, (input, target) in enumerate(data_loader):
+    for input, target in data_loader:
         input, target = variable(input), variable(target)
         optimizer.zero_grad()
         output = model(input)
@@ -67,11 +67,6 @@ def normal_train(model: nn.Module, optimizer: torch.optim, data_loader: torch.ut
         epoch_loss += loss.data #  loss.data[0]
         loss.backward()
         optimizer.step()
-
-        if (i + 1) % 100 == 0:
-            print('Loss: {:.4f}'.format(loss.item()))
-
-
     return epoch_loss / len(data_loader)
 
 
@@ -79,7 +74,7 @@ def ewc_train(model: nn.Module, optimizer: torch.optim, data_loader: torch.utils
               ewc: EWC, importance: float):
     model.train()
     epoch_loss = 0
-    for i, (input, target) in enumerate(data_loader):
+    for input, target in data_loader:
         input, target = variable(input), variable(target)
         optimizer.zero_grad()
         output = model(input)
@@ -87,9 +82,6 @@ def ewc_train(model: nn.Module, optimizer: torch.optim, data_loader: torch.utils
         epoch_loss += loss.data # [0]
         loss.backward()
         optimizer.step()
-
-        if (i + 1) % 100 == 0:
-            print('Loss: {:.4f}'.format(loss.item()))
     # rv = torch.true_divide(epoch_loss, len(data_loader))
     return epoch_loss / len(data_loader)
 

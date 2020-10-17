@@ -45,7 +45,7 @@ def main():
 
 
 def train(gpu, args):
-	torch.manual_seed(0)
+    torch.manual_seed(0)
     model = ConvNet()
     torch.cuda.set_device(gpu)
     model.cuda(gpu)
@@ -87,8 +87,11 @@ def train(gpu, args):
                     loss.item())
                    )
     if gpu == 0:
+        print("Training complete in: " + str(datetime.now() - start))
 
-if __name__ == '__main__':
+
+
+if __name__ == "__main__":
     main()
 
   
