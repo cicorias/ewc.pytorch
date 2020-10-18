@@ -1,21 +1,21 @@
 # To add a new cell, type '# %%'
 # To add a new markdown cell, type '# %% [markdown]'
 # %%
-#% matplotlib inline
+#% matplotlib inline # noqa
 import matplotlib.pyplot as plt
 
 plt.style.use("seaborn-white")
 
-import random
-import torch
-from torch import nn
-import torch.nn.functional as F
+import random # noqa
+import torch # noqa
+from torch import nn # noqa
+import torch.nn.functional as F # noqa
 # from torch.nn import functional as F
-from torch import optim
-from tqdm import tqdm
+from torch import optim # noqa
+from tqdm import tqdm # noqa
 
-from data import PermutedMNIST
-from utils import EWC, ewc_train, normal_train, test
+from data import PermutedMNIST # noqa
+from utils import EWC, ewc_train, normal_train, test # noqa
 
 
 # %%
@@ -50,10 +50,10 @@ def get_permute_mnist():
     test_loader = {}
     idx = list(range(28 * 28))
     for i in range(num_task):
-        train_loader[i] = torch.utils.data.DataLoader(PermutedMNIST(train=True, permute_idx=idx),
-                                                      batch_size=batch_size) #,
-                                                      # num_workers=4)
-        test_loader[i] = torch.utils.data.DataLoader(PermutedMNIST(train=False, permute_idx=idx),
+        train_loader[i] = torch.utils.data.DataLoader(PermutedMNIST(train=True, permute_idx=idx), # noqa
+                                                      batch_size=batch_size) #, # noqa
+                                                      # num_workers=4) # noqa
+        test_loader[i] = torch.utils.data.DataLoader(PermutedMNIST(train=False, permute_idx=idx), # noqa
                                                      batch_size=batch_size)
         random.shuffle(idx)
     return train_loader, test_loader
@@ -74,7 +74,7 @@ def standard_process(epochs, use_cuda=True, weight=True):
         loss[task] = []
         acc[task] = []
         for _ in tqdm(range(epochs)):
-            loss[task].append(normal_train(model, optimizer, train_loader[task]))
+            loss[task].append(normal_train(model, optimizer, train_loader[task])) # noqa
             for sub_task in range(task + 1):
                 acc[sub_task].append(test(model, test_loader[sub_task]))
         if task == 0 and weight:
@@ -98,15 +98,15 @@ def ewc_process(epochs, importance, use_cuda=True, weight=None):
                 model.load_state_dict(weight)
             else:
                 for _ in tqdm(range(epochs)):
-                    loss[task].append(normal_train(model, optimizer, train_loader[task]))
+                    loss[task].append(normal_train(model, optimizer, train_loader[task])) # noqa
                     acc[task].append(test(model, test_loader[task]))
         else:
             old_tasks = []
             for sub_task in range(task):
-                old_tasks = old_tasks + train_loader[sub_task].dataset.get_sample(sample_size)
+                old_tasks = old_tasks + train_loader[sub_task].dataset.get_sample(sample_size) # noqa
             old_tasks = random.sample(old_tasks, k=sample_size)
             for _ in tqdm(range(epochs)):
-                loss[task].append(ewc_train(model, optimizer, train_loader[task], EWC(model, old_tasks), importance))
+                loss[task].append(ewc_train(model, optimizer, train_loader[task], EWC(model, old_tasks), importance)) # noqa
                 for sub_task in range(task + 1):
                     acc[sub_task].append(test(model, test_loader[sub_task]))
 
@@ -118,7 +118,7 @@ def loss_plot(x):
     for t, v in x.items():
         plt.plot(list(range(t * epochs, (t + 1) * epochs)), v)
 
-def accuracy_plot(x):
+def accuracy_plot(x): # noqa
     for t, v in x.items():
         plt.plot(list(range(t * epochs, num_task * epochs)), v)
     plt.ylim(0, 1)
@@ -137,9 +137,9 @@ accuracy_plot(acc)
 
 
 # %%
-loss_ewc, acc_ewc = ewc_process(epochs, importance=1000, 
-#                                 weight=weight
-                               )
+loss_ewc, acc_ewc = ewc_process(epochs, importance=1000,  # noqa
+#                                 weight=weight # noqa
+                               ) # noqa
 
 
 # %%
@@ -154,9 +154,3 @@ accuracy_plot(acc_ewc)
 plt.plot(acc[0], label="sgd")
 plt.plot(acc_ewc[0], label="ewc")
 plt.legend()
-
-
-# %%
-
-
-
