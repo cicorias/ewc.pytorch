@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "ewc.pytorch"
+version = "0.1.0"
+description = ""
+authors = ["Shawn Cicoria <github@cicoria.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+jupyterlab = "==2.2.8"
+matplotlib = "==3.3.2"
+torch = "==1.6.0"
+torchvision = "==0.7.0"
+tqdm = "==4.49.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

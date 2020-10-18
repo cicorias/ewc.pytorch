@@ -5,7 +5,7 @@ from torchvision import datasets
 
 class PermutedMNIST(datasets.MNIST):
 
-    def __init__(self, root="~/.torch/data/mnist", train=True, permute_idx=None):
+    def __init__(self, root="./data/mnist", train=True, permute_idx=None):
         super(PermutedMNIST, self).__init__(root, train, download=True)
         assert len(permute_idx) == 28 * 28
         if self.train:
